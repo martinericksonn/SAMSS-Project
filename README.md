@@ -1,3 +1,3 @@
-# SAMSS-Backend-API
+# SAMSS-Project
 
- Smart Attendance Management Security System Using Deep Learning 
+Smart Attendance Management Security System Using Deep Learning 
