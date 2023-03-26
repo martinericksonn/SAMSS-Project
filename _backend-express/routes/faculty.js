@@ -5,7 +5,6 @@ const { CRUDReturn } = require("../modules/crud-return-interface");
 // Get all faculties
 router.get("/faculties", async (req, res) => {
   try {
-    const faculties = await getFaculties();
     res.status(200).send(new CRUDReturn(true, {}, "post").json());
   } catch (error) {
     next(error);
