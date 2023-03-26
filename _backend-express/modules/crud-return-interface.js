@@ -4,6 +4,7 @@ class CRUDReturn {
     message = "";
   
     constructor(success = false, data = {}, message = "") {
+      
       if(success ==false){
         console.log('ERROR DETECTED AND RETURNED')
         console.log(message);
