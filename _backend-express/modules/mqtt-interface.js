@@ -15,25 +15,24 @@ class MqttHandler {
   
   connect() {
     // Connect mqtt with credentials (in case of needed, otherwise we can omit 2nd param)
-    this.mqttClient = mqtt.connect(this.host, { 
+    this.mqttClient = mqtt.connect({
+        host: this.host, 
+        port: this.port,
         clientId: this.deviceID,
-        clean: true,
-        connectTimeout: 4000,
+        // clean: true,
+        // connectTimeout: 4000,
         username: this.username, 
         password: this.password,
-        protocol: 'mqtt',
-        reconnectPeriod: 1000,
-        rejectUnauthorized: false,
-        resubscribe: true,
+        protocol: 'mqtts://',
+        // reconnectPeriod: 1000,
+        // rejectUnauthorized: false,
+        // resubscribe: true,
+        // path: '/mqtt'
 
         
     });
 
-    // When a message arrives, console.log it
-    this.mqttClient.on('message', function (topic, message) {
-        console.log(`message: ${message}, || topic: ${topic}`); 
-    });
-
+    
     // Connection callback
     this.mqttClient.on('connect', async () => {
         console.log(`mqtt client connected`);
@@ -47,6 +46,12 @@ class MqttHandler {
         });
     });
 
+    // When a message arrives, console.log it
+    this.mqttClient.on('message', function (topic, payload) {
+        console.log(`message: ${payload.toString()}, || topic: ${topic}`); 
+    });
+
+
     // Notify reconnection
     this.mqttClient.on("reconnect", function () {
         console.log("Reconnection starting");
@@ -56,9 +61,6 @@ class MqttHandler {
     this.mqttClient.on("offline", function () {
         console.log("Currently offline. Please check internet!");
     });
-
-    // mqtt subscriptions
-    this.mqttClient.subscribe(subtopic, {qos: 0});
 
     // Mqtt error calback
     this.mqttClient.on('error', (err) => {

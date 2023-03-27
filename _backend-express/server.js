@@ -41,6 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var mqttClient = new MqttHandler();
 mqttClient.connect();
+mqttClient.sendMessage("Node Message");
 
 const port = process.env.PORT || 3000;
 const attendance = require("./routes/attendance");
