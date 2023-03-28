@@ -3,7 +3,7 @@ const router = express.Router();
 const { CRUDReturn } = require("../modules/crud-return-interface");
 
 // Get all faculties
-router.get("/faculties", async (req, res) => {
+router.get("/faculties", async (req, res, next) => {
   try {
     res.status(200).send(new CRUDReturn(true, {}, "post").json());
   } catch (error) {
@@ -12,7 +12,7 @@ router.get("/faculties", async (req, res) => {
 });
 
 // Get a specific faculty by id
-router.get("/id", async (req, res) => {
+router.get("/id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -23,7 +23,7 @@ router.get("/id", async (req, res) => {
 });
 
 // Add a new faculty
-router.post("/add", async (req, res) => {
+router.post("/add", async (req, res, next) => {
   try {
     const { body } = req;
 
@@ -34,7 +34,7 @@ router.post("/add", async (req, res) => {
 });
 
 // Delete a faculty by id
-router.delete("/id", async (req, res) => {
+router.delete("/id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -45,7 +45,7 @@ router.delete("/id", async (req, res) => {
 });
 
 // Update a faculty by id
-router.patch("/faculties/:id", async (req, res) => {
+router.patch("/faculties/:id", async (req, res, next) => {
   try {
     const { body } = req.body;
 
@@ -58,7 +58,7 @@ router.patch("/faculties/:id", async (req, res) => {
 });
 
 // Remove subjects from a faculty by facultyId and subjectIds
-router.patch("/faculties/:facultyId/removeSubjects", async (req, res) => {
+router.patch("/faculties/:facultyId/removeSubjects", async (req, res, next) => {
   try {
     const { body } = req.body;
 
