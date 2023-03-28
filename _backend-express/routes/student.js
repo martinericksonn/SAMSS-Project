@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { CRUDReturn } = require("../modules/crud-return-interface");
 
-class StudentModule {
+class StudentRoute {
   constructor() {}
 
   #router = express.Router();
@@ -80,4 +80,4 @@ class StudentModule {
   }
 }
 
-module.exports = router;
+module.exports = { StudentRoute };

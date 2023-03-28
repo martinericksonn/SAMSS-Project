@@ -4,10 +4,12 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const ErrorHandler = require("./middlewares/error-handler");
 const { UserRoute } = require("./routes/users");
+const { StudentRoute } = require("./routes/student");
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");
 // });
 const userRoute = new UserRoute();
+const studentRoute = new StudentRoute();
 // Start server
 
 app.use(
