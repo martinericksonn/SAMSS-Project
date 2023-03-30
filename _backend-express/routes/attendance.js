@@ -10,6 +10,8 @@ class AttendanceRoute {
     this.#router.get("/", (req, res, next) => {
       res.send("this is attendance result");
     });
+
+    return this.#router;
   }
 }
 

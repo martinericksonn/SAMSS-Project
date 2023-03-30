@@ -10,6 +10,8 @@ router.post("/config", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+
+  return this.#router;
 });
 
 module.exports = router;

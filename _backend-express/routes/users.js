@@ -23,7 +23,6 @@ class UserRoute {
       try {
         const { id } = req.query;
         var result = await this.userModule.getSingle(id);
-        // Code to fetch a user by id
         res.status(200).send(new CRUDReturn(true, { result }, "get").json());
       } catch (error) {
         next(error);
