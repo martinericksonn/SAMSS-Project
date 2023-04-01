@@ -28,6 +28,10 @@ app.use(
 app.use(bodyParser.json());
 app.use(ErrorHandler);
 
+// Don't delete
+const pubtopic = `mqtt/API/${process.env.MQTT_DEVICEID}`;
+const subtopic = "mqtt/RFID/test";
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -40,8 +44,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var mqttClient = new MqttHandler();
-mqttClient.connect();
-mqttClient.sendMessage("Node Message");
+app.post('/publish', (req, res) => {
+  const topic = req.body.topic;
+  const message = req.body.message;
+  mqttClient.publish(topic, message, {qos: 0});
+  res.send('Message published to ' + topic + ': ' + message);
+});
+
+app.get('/subscribe', (req, res) => {
+  const topic = req.body.topic;
+  mqttClient.subscribe(topic, {qos: 0});
+  res.send('Subscribed to ' + topic);
+})
+
+mqttClient.onMessage((topic, message) => {
+  // Handle incoming messages here
+  console.log(message.toString());
+});
 
 const port = process.env.PORT || 3000;
 const attendance = require("./routes/attendance");
@@ -50,14 +69,19 @@ const user = require("./routes/user");
 
 
 app.use(cors());
+app.use(ErrorHandler);
 
 app.use("/parse", fileManagerRoute.routes);
 app.use("/attendance", attendanceRoute.routes);
 app.use("/student", studentRoute.routes);
 app.use("/user", userRoute.routes);
 // app.set("port", process.env.PORT || 3000);
+
 app.listen(port, () => {
-  var server = app.listen(port, () => {
-      console.log("app running on port:", server.address().port);
-  });
+    console.log("app running on port:", server.address().port);
+});
+
+process.on('SIGINT', () => {
+  mqttClient.end();
+  process.exit();
 });
