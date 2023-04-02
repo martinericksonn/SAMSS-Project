@@ -4,9 +4,13 @@ const { UserModule } = require("../modules/users.module");
 
 class UserRoute {
   constructor() {}
-  userModule = new UserModule();
+
+  static get baseRoute() {
+    return "/user";
+  }
 
   #router = express.Router();
+  userModule = new UserModule();
 
   get routes() {
     this.#router.get("/all", async (req, res, next) => {

@@ -7,14 +7,13 @@ const { UserRoute } = require("./routes/users");
 const { StudentRoute } = require("./routes/student");
 const { FileManagerRoute } = require("./routes/file-manager");
 const { AttendanceRoute } = require("./routes/attendance");
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
+const { ConfigRoute } = require("./routes/config");
+
 const userRoute = new UserRoute();
 const studentRoute = new StudentRoute();
 const fileManagerRoute = new FileManagerRoute();
 const attendanceRoute = new AttendanceRoute();
-
+const configRoute = new ConfigRoute();
 // Start server
 
 app.use(
@@ -28,10 +27,11 @@ app.use(cors());
 
 const port = process.env.PORT || 3000;
 
-app.use("/parse", fileManagerRoute.routes);
-app.use("/attendance", attendanceRoute.routes);
-app.use("/student", studentRoute.routes);
-app.use("/user", userRoute.routes);
+app.use(ConfigRoute.baseRoute, configRoute.routes);
+app.use(FileManagerRoute.baseRoute, fileManagerRoute.routes);
+app.use(AttendanceRoute.baseRoute, attendanceRoute.routes);
+app.use(StudentRoute.baseRoute, studentRoute.routes);
+app.use(UserRoute.baseRoute, userRoute.routes);
 // app.set("port", process.env.PORT || 3000);
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);

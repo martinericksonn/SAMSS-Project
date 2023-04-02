@@ -1,17 +1,34 @@
 const express = require("express");
 const router = express.Router();
-const { Config } = require("../models");
-const { IConfigService } = require("../services/interface");
+const { CRUDReturn } = require("../modules/crud-return-interface");
+const { ConfigModule } = require("../modules/config.module");
+class ConfigRoute {
+  constructor() {}
 
-router.post("/config", async (req, res, next) => {
-  const config = req.body;
-  try {
-    res.status(200).send(new CRUDReturn(true, { config }, "post").json());
-  } catch (error) {
-    next(error);
+  configModule = new ConfigModule();
+  static get baseRoute() {
+    return "/config";
   }
 
-  return this.#router;
-});
+  #router = express.Router();
 
-module.exports = router;
+  get routes() {
+    this.#router.get("/information-schema", async (req, res, next) => {
+      try {
+        const result = await this.configModule.getSchemaAttributes();
+
+        res.status(200).send(new CRUDReturn(true, { result }, "post").json());
+      } catch (error) {
+        next(error);
+      }
+    });
+
+    router.get("/", (req, res, next) => {
+      res.send("this is student");
+    });
+
+    return this.#router;
+  }
+}
+
+module.exports = { ConfigRoute };

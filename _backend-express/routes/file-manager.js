@@ -6,6 +6,9 @@ const { CSVParser } = require("../modules/csv-parse.module");
 class FileManagerRoute {
   constructor() {}
 
+  static get baseRoute() {
+    return "/parse";
+  }
   #router = express.Router();
 
   get routes() {

@@ -4,6 +4,9 @@ const router = express.Router();
 class AttendanceRoute {
   constructor() {}
 
+  static get baseRoute() {
+    return "/attendance";
+  }
   #router = express.Router();
 
   get routes() {

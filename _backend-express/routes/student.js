@@ -4,6 +4,9 @@ const { CRUDReturn } = require("../modules/crud-return-interface");
 
 class StudentRoute {
   constructor() {}
+  static get baseRoute() {
+    return "/student";
+  }
 
   #router = express.Router();
 
