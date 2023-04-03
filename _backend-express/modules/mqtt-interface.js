@@ -1,23 +1,35 @@
 const mqtt = require('mqtt');
 
+var url = require('url');
+
+// const userEnteredURL = `mqtt://${process.env.MQTT_URL}:${process.env.MQTT_PORT}`
+// const tempNewURL= new URL(userEnteredURL)
+// const brokerURL = url.parse(userEnteredURL)
+// brokerURL.hostname = tempNewURL.hostname
+
 const options = {
-  host: process.env.MQTT_URL,
-  port: process.env.MQTT_PORT,
+  host: process.env.MQTT_LOCAL,
+  port: process.env.MQTT_LPORT,
   clientId: process.env.MQTT_DEVICEID,
-  protocol: 'mqtts://',
+  protocol: 'mqtt://',
   username: process.env.MQTT_UNAME,
   password: process.env.MQTT_PASS,
+  keepalive: 2000,
+  connectTimeout: 4000,
+  resubscribe: true,
+
 }
 
 class MqttHandler {
   constructor() {
+    console.log(options.host);
     this.mqttClient = mqtt.connect(options);
 
-    this.mqttClient.on('connect', async () => {
-      console.log('Connected to MQTT broker:');
+    this.mqttClient.on('connect', () => {
+      console.log('Connected to MQTT broker:', this.mqttClient.options.host);
     });
 
-    this.mqttClient.on('error', async (err) => {
+    this.mqttClient.on('error', (err) => {
       console.error('Error connecting to MQTT broker:', err);
     });
   }
