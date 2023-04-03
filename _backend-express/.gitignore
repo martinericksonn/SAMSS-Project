@@ -2,4 +2,7 @@
 node_modules
 node_modules/*
 
+# ignore environment files with credentials
+*.env
+
 .vscode
