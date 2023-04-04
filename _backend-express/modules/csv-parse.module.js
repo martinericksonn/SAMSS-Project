@@ -23,20 +23,10 @@ class CSVParser {
   //   }
   // }
 
-  async parse(filePath, validColumns) {
+  async parse(filePath,validTables, validColumns) {
     const results = [];
 
     const validateTable = (table) => {
-      const validTables = [
-        "config",
-        "device",
-        "subject",
-        "subject_schedule",
-        "user_attendance",
-        "user_subjects",
-        "user_type",
-        "users",
-      ];
       return validTables.includes(table);
     };
 
@@ -64,7 +54,7 @@ class CSVParser {
             return;
           }
           if (!validateRow(table, data)) {
-            reject(`Invalid row in table ${table}: ${JSON.stringify(data)}`);
+            reject(`   row in table ${table}: ${JSON.stringify(data)}`);
             return;
           }
           results.push(data);
